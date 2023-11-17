@@ -9,26 +9,33 @@ the [Taste-of-Ziti README](../../README.md) for additional details on the Taste-
 ### Install Python Requirements
 If you haven't already installed them, you'll need the dependent libraries used in the examples.
   ```bash
-  pip install -r ../requirements
+  pip install -r ../requirements.txt
   ```
 
 ## Running the Example :arrow_forward:
 Usage for this example shows the _optional_ arguments
 
-```shell
-$ python petstore.py -h
+```
+python petstore.py -h
+```
+Results:
+```
 petstore.py -i <identityFile> -q <petstore query> -a <aperitivoUrl>
 ```
+
 By default, the example obtains a new identity from the NetFoundry aperitivo service at `https://aperitivo.production.netfoundry.io` 
-and stores it locally in a `taste_of_ziti.json` file.  This example can also utilize an identity referenced in the `ZITI_IDENTITIES` 
-environment variable.
+and stores it locally in a `taste_of_ziti.json` file for subsequent runs of the application.  This example can also 
+utilize an identity referenced in the `ZITI_IDENTITIES` environment variable.
 ```shell
 export ZITI_IDENTITIES="/path/to/id.json"
 ```
 
 ## Testing the Example :clipboard:
 ```shell
-$ python petstore.py -q /api/v3/pet/findByStatus?status=sold 
+python petstore.py -q /api/v3/pet/findByStatus?status=sold 
+```
+Results:
+```
 Connecting to aperitivo to generate a new temporary identity
 Saved an openziti identity in taste_of_ziti.json. This is a temporary identity that is valid until 2023-11-18T16:48:26.614768Z
 Loading identity from taste_of_ziti.json
