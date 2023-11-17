@@ -34,7 +34,7 @@ import (
 )
 
 var log = pfxlog.Logger()
-var defaultAperitivoUrl = "https://aperitivo.prodution.netfoundry.io"
+var defaultAperitivoUrl = "https://aperitivo.production.netfoundry.io"
 var defaultIdentityFile = "taste_of_ziti.json"
 
 func init() {
