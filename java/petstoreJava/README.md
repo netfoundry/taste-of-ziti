@@ -19,7 +19,7 @@ Execute either of the following to build with the desired build framework
 
 1. Run the following to build using gradle
 
-       ./gradlew clean buil
+       ./gradlew clean build
 
 ## Usage
 
