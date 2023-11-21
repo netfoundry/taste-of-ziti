@@ -51,7 +51,7 @@ func init() {
 func parseOpts() map[string]string {
   aperitivoPtr := flag.String("a", defaultAperitivoUrl, "optional aperitivo url for acquiring an identity")
   identityPtr := flag.String("i", "", "optional identity file")
-  queryPtr := flag.String("q", "/", "petstore query to execute")
+  queryPtr := flag.String("q", "/api/v3/pet/findByStatus?status=available", "petstore query to execute")
   var showHelp bool
   flag.BoolVar(&showHelp, "h", false, "Display usage")
   flag.Parse()

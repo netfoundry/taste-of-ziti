@@ -96,7 +96,7 @@ def hit_ziti_service(opts):
     if QUERY_OPT in opts:
         query_str = opts[QUERY_OPT]
     else:
-        query_str = '/'
+        query_str = '/api/v3/pet/findByStatus?status=available'
 
     with openziti.monkeypatch():
         print('Querying petstore over openziti with query: ' + query_str)

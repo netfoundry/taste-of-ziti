@@ -34,7 +34,7 @@ $ ./petstoreGo -h
   -i string
     	optional identity file
   -q string
-    	petstore query to execute (default "/")
+    	petstore query to execute (default "/api/v3/pet/findByStatus?status=available")
 
 $ ./petstoreGo -q /api/v3/pet/findByStatus?status=sold
 INFO    Connecting to aperitivo at https://aperitivo.netfoundry.io to generate a new temporary identity 

@@ -54,7 +54,7 @@ public class PetstoreJava {
   private static final Logger log = LoggerFactory.getLogger(PetstoreJava.class);
   private static final String APERITIVO_URL_OPTION = "aperitivoUrl";
   private static final String DEFAULT_APERITIVO_URL = "https://aperitivo.production.netfoundry.io";
-  private static final String DEFAULT_QUERY = "/";
+  private static final String DEFAULT_QUERY = "/api/v3/pet/findByStatus?status=available";
   private static final String DEFAULT_ZITI_IDENTITY_FILE = "taste_of_ziti.pkcs12";
   private static final String IDENTITY_OPTION = "identityFile";
   private static final String HELP_OPTION = "help";

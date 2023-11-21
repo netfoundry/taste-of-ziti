@@ -38,7 +38,7 @@ usage: PetstoreJava
 -a,--aperitivoUrl <arg>   URL for the aperitivo service. Defaults to 'https://aperitivo.production.netfoundry.io'
 -h,--help                 Show this help text
 -i,--identityFile <arg>   Identity file, json or pkcs12. Defaults to 'taste_of_ziti.pkcs12'
--q,--query <arg>          Petstore query. Defaults to '/'
+-q,--query <arg>          Petstore query. Defaults to '/api/v3/pet/findByStatus?status=available'
 ```
 
 Maven run command:
