@@ -1,2 +1,4 @@
-# taste-of-ziti
-Projects to support the taste of ziti getting started experience
+# Work in progress
+
+This repository is a work in progress. When complete it will contain a set of examples to support the Taste of Ziti introduction.
+
