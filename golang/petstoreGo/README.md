@@ -7,7 +7,7 @@ This example uses the Taste-of-Ziti demo network and its aperitivo service to ob
 the [Taste-of-Ziti README](../../README.md) for additional details on the Taste-of-Ziti demo network.
 
 ## Requirements
-* go 1.19 or later
+* go 1.21.x or later
 * gcc compiler
 
 ## Build
