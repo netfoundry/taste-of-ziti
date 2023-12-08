@@ -1,0 +1,40 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+   sourceCompatibility = '21'
+}
+
+ext {
+   javaMainClass = "com.example.jdbcservice.JdbcJava"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.openziti:ziti:0.25.1'
+	implementation 'org.openziti:ziti-jdbc:0.25.1'
+	implementation 'org.postgresql:postgresql:42.5.1'
+	implementation 'org.slf4j:slf4j-simple:2.0.9'
+	implementation 'org.slf4j:slf4j-api:2.0.9'
+	implementation 'commons-cli:commons-cli:1.5.0'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+	implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
+
+task runWithJavaExec(type: JavaExec) {
+    group = "Execution"
+    description = "Run the OpenZiti JDBC demo"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = javaMainClass
+}
+
+test {
+    useJUnitPlatform()
+}
