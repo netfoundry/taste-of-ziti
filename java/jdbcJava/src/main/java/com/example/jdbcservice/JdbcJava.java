@@ -65,7 +65,7 @@ public class JdbcJava {
   public static void main(final String[] args) {
     final CommandLine cmdLine = parseCommandLineOptions(args);
     final String identityFile = checkCreateIdentity(cmdLine);
-    // Simple demo that uses the identity and service to perform a http request to that service
+    // Simple demo that uses the identity and service to perform a jdbc request to that service
     hitZitiService(identityFile);
     exit(0);
   }
@@ -166,60 +166,37 @@ public class JdbcJava {
 
   private static void hitZitiService(final String identityFile) {
 
-    final String serviceName = "postgres";
+    // The demo environment has a 'postgres.ziti' service that connects to a 'simpledb` database with a simpletable in it
+    log.info("Querying simpletable in the postgres database over openziti");
+    final String url = "zdbc:postgresql://postgres.ziti/simpledb";
 
-    ZitiContext zitiContext = null;
-    try {
-      log.info("Attempting to connect to ziti using identity stored in {}", identityFile);
-      Ziti.init(identityFile, "".toCharArray(), false);
-      zitiContext = Ziti.getContexts().stream().findFirst().orElseThrow(() -> {
-        log.error("Could not establish a Ziti context using the identity {}", identityFile);
-        return new IllegalArgumentException("Could not create a ZitiContext");
-      });
-      if (!zitiContext.getStatus().toString().equals("Active")) {
-        log.warn("Failed to establish a ziti context, status: {}.", zitiContext.getStatus());
-        if (zitiContext.getStatus().toString().equals("NotAuthorized")) {
-          log.warn("Most likely, the ziti identity has been deleted from the server");
-        }
-        throw new IllegalArgumentException("Could not activate the ZitiContext from: " + identityFile);
-      }
+    final Properties props = new Properties();
+    // the ziti-jdbc database driver directly supports ziti identities by setting either the keystore and keystore password
+    // when using a keystore based identity or the 'zitiIdentityFile' property when using json based identities
+    log.info("Attempting to connect to ziti using identity stored in {}", identityFile);
+    props.setProperty("zitiKeystore", identityFile);
+    props.setProperty("zitiKeystorePassword", "");
 
-      log.info("Connected to ziti using identity {}", zitiContext.name());
+    props.setProperty("user", "viewuser");     //  the database read-only username
+    props.setProperty("password", "viewpass"); //  the database read-only password
+    props.setProperty("connectTimeout", "60");
 
-      // throws an exception if the service cannot be found within the specified time
-      zitiContext.getService(serviceName, 10000);
+    // Tell the ZDBC driver to wait for up to one minute for a service named "postgres" to be available
+    // in the local SDK before connecting.  This is the service configured with the 'postgres.ziti' intercept
+    // in the database url above
+    props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_NAME, "postgres");
+    props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_TIMEOUT, "PT60S");
 
-      // The demo environment has a 'postgres.ziti' service that connects to a 'simpledb` database
-      log.info("Querying simpletable in the postgres database over openziti");
-      String url = "zdbc:postgresql://postgres.ziti/simpledb";
-
-      Properties props = new Properties();
-      props.setProperty("user", "viewuser");     //  the database read-only username
-      props.setProperty("password", "viewpass"); //  the database read-only password
-      props.setProperty("connectTimeout", "240");
-
-      // Tell the ZDBC driver to wait for up to one minute for a service named "postgres" to be available
-      // in the local SDK before connecting.
-      props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_NAME, "postgres");
-      props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_TIMEOUT, "PT60S");
-
-      try (Connection conn = DriverManager.getConnection(url, props)) {
-        try (Statement stmt = conn.createStatement()) {
-          try (ResultSet rs = stmt.executeQuery("select * from simpletable")) {
-            while (rs.next()) {
-              System.out.println("Result from database is: " + rs.getString(1) + ":" + rs.getInt(2));
-            }
+    try (Connection conn = DriverManager.getConnection(url, props)) {
+      try (Statement stmt = conn.createStatement()) {
+        try (ResultSet rs = stmt.executeQuery("select * from simpletable")) {
+          while (rs.next()) {
+            System.out.println("Result from database is: " + rs.getString(1) + ":" + rs.getInt(2));
           }
         }
-      } catch (final SQLException exception) {
-        log.error("IOException on http call received: ", exception);
       }
-    }
-    finally {
-      if (null != zitiContext) {
-        zitiContext.destroy();
-        Ziti.removeContext(zitiContext);
-      }
+    } catch (final SQLException exception) {
+      log.error("IOException on http call received: ", exception);
     }
   }
 }
