@@ -1,4 +1,4 @@
-# OpenZiti PetstoreGo
+# OpenZiti JdbcGo
 
 This example is a simple golang client that connects to a Petstore server using OpenZiti. 
 
@@ -7,7 +7,7 @@ This example uses the Taste-of-Ziti demo network and its aperitivo service to ob
 the [Taste-of-Ziti README](../../README.md) for additional details on the Taste-of-Ziti demo network.
 
 ## Requirements
-* go 1.21.x or later
+* go 1.19 or later
 * gcc compiler
 
 ## Build
@@ -29,7 +29,7 @@ the `-i <identityFile>` parameter or from the `ZITI_IDENTITIES` environment vari
 ```shell
 $ ./petstoreGo -h
   -a string
-    	optional aperitivo url for acquiring an identity (default "https://aperitivo.production.netfoundry.io")
+    	optional aperitivo url for acquiring an identity (default "https://aperitivo.netfoundry.io")
   -h	Display usage
   -i string
     	optional identity file
