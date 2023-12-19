@@ -22,6 +22,7 @@ import (
   "errors"
   "flag"
   "fmt"
+  "github.com/jackc/pgx/v5"
   "github.com/michaelquigley/pfxlog"
   "github.com/openziti/sdk-golang/ziti"
   "github.com/openziti/sdk-golang/ziti/enroll"
@@ -187,10 +188,28 @@ func checkCreateIdentity(opts map[string]string) (*ziti.CtxCollection, error) {
   }
 }
 
-func newZitiClient(collection *ziti.CtxCollection) *http.Client {
-  zitiTransport := http.DefaultTransport.(*http.Transport).Clone() // copy default transport
-  zitiTransport.DialContext = func(_ context.Context, _, addr string) (net.Conn, error) {
+func newZitiClient(collection *ziti.CtxCollection) (conn *pgx.Conn, err error) {
+  config, err := pgx.ParseConfig("postgresql://PostgresDemo/simpledb")
+  if err != nil {
+    return nil, err
+  }
+  config.User = "viewuser"
+  config.Password = "viewpass"
+
+  // the pgx connect will first use the LookupFunc to look up the host using the net.LookupHost function.
+  // Since this is a ziti service name and the translation from service to ziti context is performed
+  // in the DialFunc, just return the host string as is here.
+  config.LookupFunc = func(_ context.Context, host string) (addrs []string, err error) {
+    return []string{host}, nil
+  }
+
+  // The DialFunc returns a net.Conn to the database.  Search the ziti context collection
+  // for a ziti context that provides access to the named service and then use the ziti.Dial
+  // method to return a net.Conn connection to that service.
+  config.DialFunc = func(_ context.Context, _, addr string) (net.Conn, error) {
     // Need to search for a context within the collection that provides access to the service name in the address parameter
+    // the addr string will be in the format of ServiceName:port so split off the port portion since we are dialing
+    // by service name.
     service, _, err := net.SplitHostPort(addr)
     if err != nil {
       return nil, err
@@ -214,11 +233,10 @@ func newZitiClient(collection *ziti.CtxCollection) *http.Client {
     }
     return nil, fmt.Errorf("service [%s] is not available by any ziti context", service)
   }
-  zitiTransport.TLSClientConfig.InsecureSkipVerify = true
-  return &http.Client{Transport: zitiTransport}
+  return pgx.ConnectConfig(context.Background(), config)
 }
 
-func hitZitiService(ctxCollection *ziti.CtxCollection, opts map[string]string) {
+func hitZitiService(ctxCollection *ziti.CtxCollection) {
   found := false
   ctxCollection.ForAll(func(ctxItem ziti.Context) {
     err := ctxItem.Authenticate()
@@ -234,7 +252,7 @@ func hitZitiService(ctxCollection *ziti.CtxCollection, opts map[string]string) {
     }
     for _, svc := range svcs {
       log.Infof("This identity provides access to the service: %s", *svc.Name)
-      if *svc.Name == "PetstoreDemo" {
+      if *svc.Name == "PostgresDemo" {
         found = true
         break
       }
@@ -242,31 +260,35 @@ func hitZitiService(ctxCollection *ziti.CtxCollection, opts map[string]string) {
   })
 
   if !found {
-    log.Fatal("PetstoreDemo service not accessible by this identity")
+    log.Fatal("PostgresDemo service not accessible by this identity")
   }
-  log.Infof("Dialing PetstoreDemo with query string from command line: %s", opts["query"])
-  response, err := newZitiClient(ctxCollection).Get("http://PetstoreDemo" + opts["query"])
+
+  log.Infof("Dialing PostgresDemo with a simple database query")
+
+  var dbConn *pgx.Conn
+  dbConn, err := newZitiClient(ctxCollection)
   if err != nil {
     log.Fatal(err)
   }
-  defer func(Body io.ReadCloser) {
-    err := Body.Close()
-    if err != nil {
+  defer dbConn.Close(context.Background())
+  rows, err := dbConn.Query(context.Background(), "select * from vets")
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer rows.Close()
+  // Loop through rows, using Scan to assign column data to struct fields.
+  for rows.Next() {
+    var firstName string
+    var lastName string
+    var intVal int32
+    if err := rows.Scan(&intVal, &firstName, &lastName); err != nil {
       log.Fatal(err)
     }
-  }(response.Body)
-  responseData, err := io.ReadAll(response.Body)
-  if err != nil {
+    log.Infof("Result from database is: %d: %s %s", intVal, firstName, lastName)
+  }
+  if err := rows.Err(); err != nil {
     log.Fatal(err)
   }
-  if response.StatusCode != 200 {
-    log.Errorf("Non-success response (%d) received from the petstore service on the query for %s.  Body received is: %s",
-      response.StatusCode, opts["query"], responseData)
-    return
-  }
-
-  log.Infof("Received: %s", responseData)
-
 }
 
 func main() {
@@ -277,5 +299,5 @@ func main() {
     log.Fatal(err)
   }
 
-  hitZitiService(zitiCtxCollection, userOpts)
+  hitZitiService(zitiCtxCollection)
 }

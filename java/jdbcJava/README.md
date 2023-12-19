@@ -2,6 +2,11 @@
 
 This example is a simple Java client that connects to a JDBC database using OpenZiti
 
+The demo environment provides a sample Postgres database accessible by a service named `PostgresDemo`.  This
+service provides access to a simple database named `sampledb` that has several tables from the petclinic server including a `vets` table with the following schema:
+
+![sampletable.png](sampletable.png)
+
 ## Setup :wrench:
 This example uses the Taste-of-Ziti demo network and its aperitivo service to obtain a temporary identity. Refer to
 the [Taste-of-Ziti README](../../README.md) for additional details on the Taste-of-Ziti demo network.
@@ -26,7 +31,6 @@ Execute either of the following to build with the desired build framework
 By default, the JdbcJava client connects to a hosted OpenZiti network and receives a temporary identity.  The
 identity is saved and reused for subsequent calls.  An alternate identity file can be used by calling the client with
 the `-i <identityFile>` parameter.
-
 
 Gradle run command:
 
@@ -70,14 +74,11 @@ $  ./mvnw exec:java
 [DefaultDispatcher-worker-2] INFO org.openziti.net.dns.ZitiDNSManager - registered: postgres.ziti => postgres.ziti/100.64.1.5
 [com.example.jdbcservice.JdbcJava.main()] INFO com.example.jdbcservice.JdbcJava - Connected to ziti using identity 8blb64jub
 [com.example.jdbcservice.JdbcJava.main()] INFO com.example.jdbcservice.JdbcJava - Querying simpletable in the postgres database over openziti
-Result from database is: a:0
-Result from database is: b:1
-Result from database is: c:2
-Result from database is: d:3
-Result from database is: e:4
-Result from database is: f:5
-Result from database is: g:6
-Result from database is: h:7
-Result from database is: i:8
-Result from database is: j:9
+Result from database is: 1: James Carter
+Result from database is: 2: Helen Leary
+Result from database is: 3: Linda Douglas
+Result from database is: 4: Rafael Ortega
+Result from database is: 5: Henry Stevens
+Result from database is: 6: Sharon Jenkins
+
 ```

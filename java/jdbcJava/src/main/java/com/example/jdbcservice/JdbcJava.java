@@ -109,7 +109,7 @@ public class JdbcJava {
     try {
       log.info("Connecting to aperitivo at {} to generate a new identity", aperitivoUri);
       final Request request = new Request.Builder()
-          .url(URI.create(aperitivoUri).resolve("/aperitivo/v1/identities").toURL())
+            .url(URI.create(aperitivoUri).resolve("/aperitivo/v1/identities").toURL())
           .header("Accept", "application/json")
           .post(RequestBody.create(new byte[0], null))
           .build();
@@ -184,14 +184,15 @@ public class JdbcJava {
     // Tell the ZDBC driver to wait for up to one minute for a service named "postgres" to be available
     // in the local SDK before connecting.  This is the service configured with the 'postgres.ziti' intercept
     // in the database url above
-    props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_NAME, "postgres");
+    props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_NAME, "PostgresDemo");
     props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_TIMEOUT, "PT60S");
 
     try (Connection conn = DriverManager.getConnection(url, props)) {
       try (Statement stmt = conn.createStatement()) {
-        try (ResultSet rs = stmt.executeQuery("select * from simpletable")) {
+        try (ResultSet rs = stmt.executeQuery("select * from vets")) {
           while (rs.next()) {
-            System.out.println("Result from database is: " + rs.getString(1) + ":" + rs.getInt(2));
+            System.out.println(String.format("Result from database is: %d: %s %s",
+                rs.getInt(1), rs.getString(2), rs.getString(3)));
           }
         }
       }
