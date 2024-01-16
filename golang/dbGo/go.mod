@@ -1,4 +1,4 @@
-module jdbcGo
+module dbGo
 
 go 1.21.3
 
@@ -6,6 +6,7 @@ require (
 	github.com/jackc/pgx/v5 v5.5.1
 	github.com/michaelquigley/pfxlog v0.6.10
 	github.com/openziti/sdk-golang v0.20.129
+	github.com/sirupsen/logrus v1.9.3
 )
 
 require (
@@ -59,7 +60,6 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.9 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
