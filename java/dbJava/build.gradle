@@ -10,7 +10,7 @@ java {
 }
 
 ext {
-   javaMainClass = "com.example.jdbcservice.JdbcJava"
+   javaMainClass = "com.example.jdbcservice.DbJava"
 }
 
 repositories {

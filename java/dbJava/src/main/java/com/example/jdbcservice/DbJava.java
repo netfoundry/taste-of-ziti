@@ -54,8 +54,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-public class JdbcJava {
-  private static final Logger log = LoggerFactory.getLogger(JdbcJava.class);
+public class DbJava {
+  private static final Logger log = LoggerFactory.getLogger(DbJava.class);
   private static final String APERITIVO_URL_OPTION = "aperitivoUrl";
   private static final String DEFAULT_APERITIVO_URL = "https://aperitivo.production.netfoundry.io";
   private static final String DEFAULT_ZITI_IDENTITY_FILE = "taste_of_ziti.pkcs12";
@@ -88,7 +88,7 @@ public class JdbcJava {
     if (commandLine.hasOption(HELP_OPTION)) {
       final HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(120);
-      formatter.printHelp("JdbcJava", options);
+      formatter.printHelp("DbJava", options);
       exit(0);
     }
     return commandLine;
