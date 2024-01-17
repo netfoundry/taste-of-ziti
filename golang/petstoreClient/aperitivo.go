@@ -18,6 +18,7 @@ package main
 
 import (
   "encoding/json"
+  "github.com/openziti/sdk-golang/ziti"
   "github.com/openziti/sdk-golang/ziti/enroll"
   "io"
   "log"
@@ -112,4 +113,32 @@ func zitiEnrollJwt(jwt string, outputFile string, validUntil time.Time) {
   } else {
     log.Fatal("Failure retrieving full path of stored Identity file")
   }
+}
+
+// CheckIdentityIsStillValid authenticates each Identity in the ziti.CtxCollection and returns a boolean indicating whether any provide access to the
+// specified serviceName
+func CheckIdentityIsStillValid(ctxCollection *ziti.CtxCollection, serviceName string) bool {
+  isValid := false
+  // iterate over the ziti.Context's in the collection and attempt to authenticate the Identity and then verify that the serviceName
+  // service can be accessed using this identity.
+  ctxCollection.ForAll(func(ctxItem ziti.Context) {
+    err := ctxItem.Authenticate()
+    if err != nil {
+      log.Printf("ERROR: Cannot authenticate with the configured identity. If using '%s', try deleting this saved identity file and trying again",
+        DefaultIdentityFile)
+      log.Fatal(err)
+    }
+    availableServices, err := ctxItem.GetServices()
+    if err != nil {
+      log.Fatal(err)
+    }
+    for _, svc := range availableServices {
+      log.Printf("This identity provides access to the service: %s", *svc.Name)
+      if *svc.Name == serviceName {
+        isValid = true
+        break
+      }
+    }
+  })
+  return isValid
 }

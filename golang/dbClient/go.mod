@@ -1,12 +1,10 @@
-module dbGo
+module dbClient
 
 go 1.21.3
 
 require (
 	github.com/jackc/pgx/v5 v5.5.1
-	github.com/michaelquigley/pfxlog v0.6.10
 	github.com/openziti/sdk-golang v0.20.129
-	github.com/sirupsen/logrus v1.9.3
 )
 
 require (
@@ -41,6 +39,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
+	github.com/michaelquigley/pfxlog v0.6.10 // indirect
 	github.com/miekg/pkcs11 v1.1.1 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
@@ -60,6 +59,7 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.9 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect

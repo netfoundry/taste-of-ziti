@@ -109,34 +109,8 @@ func buildZitiClient(collection *ziti.CtxCollection) *http.Client {
   return &http.Client{Transport: zitiTransport}
 }
 
-func checkIdentityIsStillValid(ctxCollection *ziti.CtxCollection) bool {
-  isValid := false
-  // iterate over the ziti.Context's in the collection and attempt to authenticate the Identity and then verify that the PetstoreDemo
-  // service can be accessed using this identity.
-  ctxCollection.ForAll(func(ctxItem ziti.Context) {
-    err := ctxItem.Authenticate()
-    if err != nil {
-      log.Printf("ERROR: Cannot authenticate with the configured identity. If using '%s', try deleting this saved identity file and trying again",
-        DefaultIdentityFile)
-      log.Fatal(err)
-    }
-    availableServices, err := ctxItem.GetServices()
-    if err != nil {
-      log.Fatal(err)
-    }
-    for _, svc := range availableServices {
-      log.Printf("This identity provides access to the service: %s", *svc.Name)
-      if *svc.Name == "PetstoreDemo" {
-        isValid = true
-        break
-      }
-    }
-  })
-  return isValid
-}
-
 func connectZitiService(ctxCollection *ziti.CtxCollection, opts map[string]string) {
-  if !checkIdentityIsStillValid(ctxCollection) {
+  if !CheckIdentityIsStillValid(ctxCollection, "PetstoreDemo") {
     log.Fatal("PetstoreDemo service not accessible by this Identity")
   }
   log.Printf("Calling PetstoreDemo with query string from command line: %s", opts["query"])

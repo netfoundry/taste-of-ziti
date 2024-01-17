@@ -28,14 +28,14 @@ $ go run petstoreClient -h
     	petstore query to execute (default "/api/v3/pet/findByStatus?status=available")
 
 $ go run petstoreClient -q /api/v3/pet/findByStatus?status=sold
-INFO    Connecting to Aperitivo at https://aperitivo.production.netfoundry.io to generate a new temporary identity 
-INFO    generating 4096 bit RSA key                  
-INFO    A new identity is being enrolled and stored in /home/myDemoUser/ziti/taste_of_ziti.json. This is a temporary identity that is valid until Fri, 17 Nov 2023 18:48:11 UTC 
-INFO    Identity write completed                     
-INFO    Loading identity from taste_of_ziti.json     
-INFO    This identity provides access to the service: FireworksDemo 
-INFO    This identity provides access to the service: WhatIsMyIpDemo 
-INFO    This identity provides access to the service: PetstoreDemo 
-INFO    Calling PetstoreDemo with query string from command line: /api/v3/pet/findByStatus?status=sold 
-INFO    Received: [{"id":5,"category":{"id":1,"name":"Dogs"},"name":"Dog 2","photoUrls":["url1","url2"],"tags":[{"id":1,"name":"tag2"},{"id":2,"name":"tag3"}],"status":"sold"}] 
+2024/01/17 13:53:15 Connecting to Aperitivo at https://aperitivo.production.netfoundry.io to generate a new temporary identity 
+INFO[0002] generating 4096 bit RSA key                  
+2024/01/17 13:53:20 A new identity is being enrolled and stored in /home/myDemoUser/taste-of-ziti/golang/petstoreClient/taste_of_ziti.json. This is a temporary identity that is valid until Fri, 17 Nov 2023 18:48:11 UTC 
+2024/01/17 13:53:20 Identity write completed                     
+2024/01/17 13:53:20 Loading identity from taste_of_ziti.json     
+2024/01/17 13:53:20 This identity provides access to the service: FireworksDemo 
+2024/01/17 13:53:20 This identity provides access to the service: WhatIsMyIpDemo 
+2024/01/17 13:53:20 This identity provides access to the service: PetstoreDemo 
+2024/01/17 13:53:20 Calling PetstoreDemo with query string from command line: /api/v3/pet/findByStatus?status=sold 
+2024/01/17 13:53:20 Received: [{"id":5,"category":{"id":1,"name":"Dogs"},"name":"Dog 2","photoUrls":["url1","url2"],"tags":[{"id":1,"name":"tag2"},{"id":2,"name":"tag3"}],"status":"sold"}] 
 ```
