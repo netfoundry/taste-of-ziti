@@ -13,19 +13,11 @@ If you haven't already installed them, you'll need the dependent libraries used 
   ```
 
 ## Running the Example :arrow_forward:
-Usage for this example shows the _optional_ arguments
 
-```
-python petstore.py -h
-```
-Results:
-```
-petstore.py -i <identityFile> -q <petstore query> -a <aperitivoUrl>
-```
+By default, the example obtains a new identity from the NetFoundry Aperitivo service at `https://aperitivo.production.netfoundry.io` 
+and stores it locally in a `taste_of_ziti.json` file for subsequent runs of the application. 
 
-By default, the example obtains a new identity from the NetFoundry aperitivo service at `https://aperitivo.production.netfoundry.io` 
-and stores it locally in a `taste_of_ziti.json` file for subsequent runs of the application.  This example can also 
-utilize an identity referenced in the `ZITI_IDENTITIES` environment variable.
+Optionally, this example can also utilize an identity referenced in the `ZITI_IDENTITIES` environment variable.
 ```shell
 export ZITI_IDENTITIES="/path/to/id.json"
 ```

@@ -91,7 +91,7 @@ def parse_opts(argv):
     return parsed_opts
 
 
-def hit_ziti_service(opts):
+def connect_ziti_service(opts):
     # Use openziti monkeypatch to query over ziti
     if QUERY_OPT in opts:
         query_str = opts[QUERY_OPT]
@@ -108,4 +108,4 @@ if __name__ == "__main__":
     user_opts = parse_opts(sys.argv[1:])
 
     check_create_identity(user_opts)
-    hit_ziti_service(user_opts)
+    connect_ziti_service(user_opts)
