@@ -129,15 +129,16 @@ import com.example.demoutils.AperitivoUtils;
 
       // we could use the service.getConfig("intercept.v1", JsonNode.class) to load the address and port range to hit for the
       // service but for this demo, just use what we know about the petstore service
-      log.info("Query"
-          + "ing petstore over openziti with query: {}", petstoreQuery);
+      log.info("Querying petstore over openziti with query: {}", petstoreQuery);
       final Request httpRequest = new Builder()
           .url(String.format("http://%s:%d%s", "petstore.ziti", 80, petstoreQuery))
           .header("Accept", "*/*")
           .get()
           .build();
-      // Need to inject the ziti socket factory and dns resolver into the http client
-      // This demonstrates using a third-party Http client like OkHttp with OpenZiti.  To do so,
+      // This demonstrates using a third-party HTTP client, like OkHttp, with OpenZiti.  To do so,
+      // replace the socketFactory and DNSResolver of the client with those provided by OpenZiti.
+      // By doing this, the OpenZiti service's intercept address "petstore.ziti" becomes addressable
+      // just like any other address
       final OkHttpClient client = new OkHttpClient.Builder()
           .followRedirects(true)
           .socketFactory(Ziti.getSocketFactory())
