@@ -1,6 +1,6 @@
 # OpenZiti Browzer Access
 
-Browzer is a way to access dark applications using nothing more than a web browzer.
+Browzer is a way to access dark applications using nothing more than a web browser.
 TODO: add more marketing speak about browzer here
 
 Access to a dark application over Browzer utilizes an OpenZiti Identity configured with an
@@ -9,7 +9,7 @@ can be accessed using an Auth0 login.
 
 
 ## Requirements
-* Google Chrome web browzer
+* Google Chrome web browser, version 120 or later
 
 ## Usage
 
