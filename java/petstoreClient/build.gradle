@@ -10,7 +10,7 @@ java {
 }
 
 ext {
-   javaMainClass = "com.example.restservice.PetstoreJava"
+   javaMainClass = "com.example.restservice.PetstoreClient"
 }
 
 repositories {

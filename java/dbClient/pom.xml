@@ -57,11 +57,6 @@
 			<artifactId>bcpkix-jdk18on</artifactId>
 			<version>1.76</version>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -79,7 +74,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
-					<mainClass>com.example.jdbcservice.DbJava</mainClass>
+					<mainClass>com.example.jdbcservice.DbClient</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
