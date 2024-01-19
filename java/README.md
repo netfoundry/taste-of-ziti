@@ -1,6 +1,6 @@
 ![Ziggy using the ziti-sdk-jvm](https://raw.githubusercontent.com/openziti/branding/main/images/banners/Java.jpg)
 
-The [OpenZiti](https://github.com/openziti/ziti) Ziti SDK for JVM enables Java and other developers to easily and securely connect their applications to backend services over
+The [OpenZiti](https://github.com/openziti) SDK for JVM enables Java and other developers to easily and securely connect their applications to backend services over
 Ziti networks
 
 OpenZiti is an open-source project that provides secure, zero-trust networking for applications running on any platform.
