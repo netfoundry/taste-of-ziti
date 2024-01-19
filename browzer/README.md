@@ -5,7 +5,7 @@ TODO: add more marketing speak about browzer here
 
 Access to a dark application over Browzer utilizes an OpenZiti Identity configured with an
 external [OIDC](https://auth0.com/docs/authenticate/protocols/openid-connect-protocol) compliant authentication provider.   For the Taste-of-Ziti demo, browzer applications
-can be accessed using an Auth0 login.
+can be accessed using the provided Auth0 login.
 
 
 ## Requirements
