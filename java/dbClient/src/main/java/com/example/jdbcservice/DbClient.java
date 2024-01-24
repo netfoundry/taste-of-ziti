@@ -119,7 +119,9 @@ public class DbClient {
     props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_NAME, "PostgresDemo");
     props.setProperty(ZitiDriver.ZITI_WAIT_FOR_SERVICE_TIMEOUT, "PT60S");
 
+    log.info("Connecting to: {}", url);
     try (Connection conn = DriverManager.getConnection(url, props)) {
+      log.info("Database connected. Issuing a simple database query...");
       try (Statement stmt = conn.createStatement()) {
         try (ResultSet rs = stmt.executeQuery("select * from vets")) {
           while (rs.next()) {

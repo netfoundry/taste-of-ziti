@@ -99,7 +99,7 @@ def connect_ziti_service(opts):
         query_str = '/api/v3/pet/findByStatus?status=available'
 
     with openziti.monkeypatch():
-        print('Querying petstore over openziti with query: ' + query_str)
+        print('Calling PetstoreDemo with url: http://petstore.ziti' + query_str)
         r = requests.get("http://petstore.ziti" + query_str)
         print(r.text)
 

@@ -36,7 +36,8 @@ INFO[0001] generating 4096 bit RSA key
 2024/01/17 15:34:06 A new Identity was enrolled and stored in /home/myDemoUser/taste-of-ziti/golang/dbClient/taste_of_ziti.json. This is a temporary Identity that is valid until Thu, 18 Jan 2024 20:34:04 UTC
 2024/01/17 15:34:06 Loading identity from taste_of_ziti.json
 2024/01/17 15:34:06 This identity provides access to the service: PostgresDemo
-2024/01/17 15:34:06 Connecting to PostgresDemo and issuing a simple database query
+2024/01/17 15:34:06 Connecting to: postgresql://PostgresDemo/simpledb
+2024/01/17 15:34:06 Database connected. Issuing a simple database query...
 2024/01/17 15:34:07 Result from database is: 1: James Carter
 2024/01/17 15:34:07 Result from database is: 2: Helen Leary
 2024/01/17 15:34:07 Result from database is: 3: Linda Douglas

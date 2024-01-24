@@ -34,6 +34,6 @@ INFO[0002] generating 4096 bit RSA key
 2024/01/17 13:53:20 Identity write completed                     
 2024/01/17 13:53:20 Loading identity from taste_of_ziti.json     
 2024/01/17 13:53:20 This identity provides access to the service: PetstoreDemo 
-2024/01/17 13:53:20 Calling PetstoreDemo with query string from command line: /api/v3/pet/findByStatus?status=sold 
+2024/01/17 13:53:20 Calling PetstoreDemo with url: http://PetstoreDemo/api/v3/pet/findByStatus?status=sold 
 2024/01/17 13:53:20 Received: [{"id":5,"category":{"id":1,"name":"Dogs"},"name":"Dog 2","photoUrls":["url1","url2"],"tags":[{"id":1,"name":"tag2"},{"id":2,"name":"tag3"}],"status":"sold"}] 
 ```

@@ -49,6 +49,7 @@ $  ./mvnw exec:java
 [com.example.jdbcservice.DbClient.main()] INFO com.example.demoutils.AperitivoUtils - Building a keystore to contain the new identity
 [com.example.jdbcservice.DbClient.main()] INFO com.example.demoutils.AperitivoUtils - A new identity is stored at taste_of_ziti.pkcs12. This is a temporary identity that is valid until 12/08/2023 15:20:38
 [com.example.jdbcservice.DbClient.main()] INFO com.example.jdbcservice.DbClient - Attempting to connect to ziti using identity stored in taste_of_ziti.pkcs12
+[com.example.jdbcservice.DbClient.main()] INFO com.example.jdbcservice.DbClient - Connecting to: zdbc:postgresql://postgres.ziti/simpledb
 [com.example.jdbcservice.DbClient.main()] INFO org.openziti.impl.ZitiImpl - ZitiSDK version 0.25.1 @344b49b()
 [DefaultDispatcher-worker-3] INFO org.openziti.api.Controller - controller[https://4c17a450-52c0-4c6b-b3db-5a0477a7e5f7.production.netfoundry.io/] version(v0.31.0/5237e2b4794a)
 [DefaultDispatcher-worker-2] INFO org.openziti.net.dns.ZitiDNSManager - assigned petstore.ziti => petstore.ziti/100.64.1.2 []
@@ -59,8 +60,7 @@ $  ./mvnw exec:java
 [DefaultDispatcher-worker-2] INFO org.openziti.net.dns.ZitiDNSManager - registered: whatismyip.ziti => whatismyip.ziti/100.64.1.4
 [DefaultDispatcher-worker-2] INFO org.openziti.net.dns.ZitiDNSManager - assigned postgres.ziti => postgres.ziti/100.64.1.5 []
 [DefaultDispatcher-worker-2] INFO org.openziti.net.dns.ZitiDNSManager - registered: postgres.ziti => postgres.ziti/100.64.1.5
-[com.example.jdbcservice.DbClient.main()] INFO com.example.jdbcservice.DbClient - Connected to ziti using identity 8blb64jub
-[com.example.jdbcservice.DbClient.main()] INFO com.example.jdbcservice.DbClient - Querying simpletable in the postgres database over openziti
+[com.example.jdbcservice.DbClient.main()] INFO com.example.jdbcservice.DbClient - Database connected. Issuing a simple database query...
 Result from database is: 1: James Carter
 Result from database is: 2: Helen Leary
 Result from database is: 3: Linda Douglas

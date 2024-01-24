@@ -48,7 +48,7 @@ $ ./mvnw exec:java -Dexec.args="-q /api/v3/pet/findByStatus?status=sold"
 [DefaultDispatcher-worker-3] INFO org.openziti.net.dns.ZitiDNSManager - assigned petstore.ziti => petstore.ziti/100.64.1.3 []
 [DefaultDispatcher-worker-3] INFO org.openziti.net.dns.ZitiDNSManager - registered: petstore.ziti => petstore.ziti/100.64.1.3
 [com.example.restservice.PetstoreClient.main()] INFO com.example.restservice.PetstoreClient - Connected to ziti using identity u72hknkhe-
-[com.example.restservice.PetstoreClient.main()] INFO com.example.restservice.PetstoreClient - Querying petstore over openziti with query: /api/v3/pet/findByStatus?status=sold
+[com.example.restservice.PetstoreClient.main()] INFO com.example.restservice.PetstoreClient - Calling PetstoreDemo with url: http://PetstoreDemo/api/v3/pet/findByStatus?status=sold
 [com.example.restservice.PetstoreClient.main()] INFO com.example.restservice.PetstoreClient - Reading response
 [com.example.restservice.PetstoreClient.main()] INFO com.example.restservice.PetstoreClient - --- [{"id":5,"category":{"id":1,"name":"Dogs"},"name":"Dog 2","photoUrls":["url1","url2"],"tags":[{"id":1,"name":"tag2"},{"id":2,"name":"tag3"}],"status":"sold"}]
 ```

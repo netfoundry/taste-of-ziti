@@ -76,6 +76,7 @@ func checkCreateIdentity(opts map[string]string) *ziti.CtxCollection {
 }
 
 func connectZitiPostgresClient(collection *ziti.CtxCollection) (conn *pgx.Conn, err error) {
+	log.Printf("Connecting to: postgresql://PostgresDemo/simpledb")
 	config, err := pgx.ParseConfig("postgresql://PostgresDemo/simpledb")
 	if err != nil {
 		return nil, err
@@ -128,10 +129,9 @@ func queryDatabaseOverZiti(ctxCollection *ziti.CtxCollection) {
 		log.Fatal("PetstoreDemo service not accessible by this Identity")
 	}
 
-	log.Printf("Connecting to PostgresDemo and issuing a simple database query")
-
 	var dbConn *pgx.Conn
 	dbConn, err := connectZitiPostgresClient(ctxCollection)
+	log.Printf("Database connected. Issuing a simple database query...")
 	if err != nil {
 		log.Fatal(err)
 	}

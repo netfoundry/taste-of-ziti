@@ -129,7 +129,7 @@ import com.example.demoutils.AperitivoUtils;
 
       // we could use the service.getConfig("intercept.v1", JsonNode.class) to load the address and port range to hit for the
       // service but for this demo, just use what we know about the petstore service
-      log.info("Querying petstore over openziti with query: {}", petstoreQuery);
+      log.info("Calling PetstoreDemo with url: {}", "http://petstore.ziti" + petstoreQuery);
       final Request httpRequest = new Builder()
           .url(String.format("http://%s:%d%s", "petstore.ziti", 80, petstoreQuery))
           .header("Accept", "*/*")
