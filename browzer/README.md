@@ -18,7 +18,7 @@ can be accessed using the provided Auth0 login.
 Visit the https://petstore.appetizer.browzer.cloudziti.io page using a Google Chrome browzer
 
 Log into the Auth0 based OIDC provider using the Taste-of-Ziti demo credentials:
-* Email address: `demouser@taste-of-ziti.io`
+* Email address: `demouser@netfoundry.io`
 * Password: `demo_Guest`
 
 Once authenticated, the web browser is automatically redirected to the associated dark web application.
@@ -28,7 +28,7 @@ Once authenticated, the web browser is automatically redirected to the associate
 Visit the https://fireworks.appetizer.browzer.cloudziti.io page using a Google Chrome browzer
 
 Log into the Auth0 based OIDC provider using the Taste-of-Ziti demo credentials:
-* Email address: `demouser@taste-of-ziti.io`
+* Email address: `demouser@netfoundry.io`
 * Password: `demo_Guest`
 
 Once authenticated, the web browser is automatically redirected to the associated dark web application 
