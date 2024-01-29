@@ -37,7 +37,6 @@
 
 # Go workspace file
 go.work
-go.sum
 
 # Ziti identity file
 **/taste_of_ziti.json
