@@ -18,16 +18,11 @@ the `-i <identityFile>` parameter.
 
 ### Example Output
 ```shell
-$ go run petstoreClient -h
-  -a string
-    	optional aperitivo url for acquiring an identity (default "https://aperitivo.production.netfoundry.io")
-  -h	Display usage
-  -i string
-    	optional identity file
-  -q string
-    	petstore query to execute (default "/api/v3/pet/findByStatus?status=available")
+$ go run . -q /api/v3/pet/findByStatus?status=sold
+```
 
-$ go run petstoreClient -q /api/v3/pet/findByStatus?status=sold
+Results:
+```
 2024/01/17 13:53:15 Connecting to Aperitivo at https://aperitivo.production.netfoundry.io to generate a new temporary identity 
 INFO[0002] generating 4096 bit RSA key                  
 2024/01/17 13:53:20 A new identity is being enrolled and stored in /home/myDemoUser/taste-of-ziti/golang/petstoreClient/taste_of_ziti.json. This is a temporary identity that is valid until Fri, 17 Nov 2023 18:48:11 UTC 
