@@ -32,7 +32,8 @@ def create_aperitivo_identity(opts):
     else:
         aperitivo_url = 'https://aperitivo.production.netfoundry.io'
 
-    aperitivo_response = requests.post(aperitivo_url + '/aperitivo/v1/identities')
+    headers = {"Accept": "application/json"}
+    aperitivo_response = requests.post(aperitivo_url + '/aperitivo/v1/identities', headers=headers)
     if aperitivo_response.status_code != 200:
         print('Failure to connect to aperitivo to generate a new identity.  Status code = ' +
               str(aperitivo_response.status_code))

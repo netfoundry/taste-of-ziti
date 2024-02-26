@@ -126,7 +126,7 @@ func connectZitiPostgresClient(collection *ziti.CtxCollection) (conn *pgx.Conn, 
 
 func queryDatabaseOverZiti(ctxCollection *ziti.CtxCollection) {
 	if !CheckIdentityIsStillValid(ctxCollection, "PostgresDemo") {
-		log.Fatal("PetstoreDemo service not accessible by this Identity")
+		log.Fatal("PostgresDemo service not accessible by this Identity")
 	}
 
 	var dbConn *pgx.Conn

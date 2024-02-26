@@ -44,7 +44,10 @@ func GenerateIdentity(aperitivoUrl string) string {
 	log.Printf("Connecting to Aperitivo at %s to generate a new temporary Identity", aperitivoUrl)
 
 	// simple REST based query that returns a JSON formatted response
-	response, err := http.Post(aperitivoUrl+"/aperitivo/v1/identities", "application/json", nil)
+	req, _ := http.NewRequest("POST", aperitivoUrl+"/aperitivo/v1/identities", nil)
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	response, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}
