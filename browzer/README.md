@@ -33,3 +33,19 @@ Log into the Auth0 based OIDC provider using the Taste-of-Ziti demo credentials:
 
 Once authenticated, the web browser is automatically redirected to the associated dark web application 
 that displays some simple celebratory fireworks to show your success!
+
+### ScadaLTS Browzer Access
+
+The [ScadaLTS](https://github.com/SCADA-LTS/Scada-LTS/wiki) server is used by the ModbusServer examples.
+
+Visit the https://scadalts.tasteofziti.browzer.cloudziti.io page using a Google Chrome browzer
+
+Log into the Auth0 based OIDC provider using the Taste-of-Ziti demo credentials:
+* Email address: `demouser@netfoundry.io`
+* Password: `demo_Guest`
+
+Once authenticated, the web browser is automatically redirected to the dark [ScadaLTS](https://github.com/SCADA-LTS/Scada-LTS/wiki) 
+server.  This server requires additional login credentials.  For the Taste-of-Ziti demo environment use the following credentials:
+
+* Username: `demoUser`
+* Password: `demo_Guest`

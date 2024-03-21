@@ -1,0 +1,40 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+   sourceCompatibility = '21'
+}
+
+ext {
+   javaMainClass = "com.example.modbus.ModbusServer"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'com.digitalpetri.modbus:modbus-slave-tcp:1.2.2'
+	implementation('org.openziti:ziti:0.26.2')
+	implementation('org.openziti:ziti-netty:0.26.2')
+	implementation 'org.slf4j:slf4j-simple:2.0.9'
+	implementation 'org.slf4j:slf4j-api:2.0.9'
+	implementation 'commons-cli:commons-cli:1.5.0'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+	implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
+
+task runWithJavaExec(type: JavaExec) {
+    group = "Execution"
+    description = "Run the OpenZiti ModbusServer demo"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = javaMainClass
+}
+
+test {
+    useJUnitPlatform()
+}
