@@ -1,0 +1,32 @@
+version: "3"
+services:
+  pet_store:
+    image: swaggerapi/petstore3:unstable
+    container_name: petstore.demo
+    restart: unless-stopped
+    networks:
+      - demo
+
+  postgres_db:
+    image: postgres
+    container_name: postgres.demo
+    volumes:
+      - ./posgresdb/postgres-setup.sh:/docker-entrypoint-initdb.d/postgres-setup.sh
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_VIEW_USER=viewuser
+      - POSTGRES_VIEW_PASSWORD=viewpass
+    networks:
+      - demo
+
+  ziti_tunneller:
+    image: 'openziti/ziti-host:latest'
+    networks:
+      - demo
+    environment:
+      - ZITI_IDENTITY_JSON=${ZITI_IDENTITY_JSON}
+
+networks:
+  demo:

@@ -1,0 +1,103 @@
+version: "3.8"
+services:
+  database:
+    container_name: mysql
+    image: mysql/mysql-server:8.0.32
+    expose:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=${MYSQL_DB_PASSWORD}
+      - MYSQL_DATABASE=scadalts
+    volumes:
+      - ./db_data:/var/lib/mysql:rw
+      - ./db_conf:/etc/mysql:ro
+    command: --log_bin_trust_function_creators=1
+    networks:
+      - scada
+
+  scadalts:
+    image: scadalts/scadalts:latest
+    container_name: scadalts.scada
+    environment:
+      - CATALINA_OPTS=-Xmx512m -Xms512m
+    depends_on:
+      - database
+      - zitirouter
+    command:
+      - /usr/bin/wait-for-it
+      - --host=database
+      - --port=3306
+      - --timeout=30
+      - --strict
+      - --
+      - /usr/local/tomcat/bin/catalina.sh
+      - run
+    network_mode: service:zitirouter
+
+  chown-volume:
+    image: busybox
+    command: chown -R ${ZIGGY_UID:-2171} /mnt
+    volumes:
+      - ziti-router:/mnt
+
+  zitirouter:
+    image: kbinghamnetfoundry/ziti-router:release-next
+    container_name: scada-er
+    depends_on:
+      chown-volume:
+        condition: service_completed_successfully
+    volumes:
+      - ziti-router:/mnt
+    working_dir: /mnt
+    # these declared vars pass through to container and should be assigned in an .env file or exported from parent env
+    # to ensure consistency throughout the compose project
+    environment:
+      # *** these are the important vars to set ***
+      ZITI_CTRL_ADVERTISED_ADDRESS: ${ZITI_CTRL_ADDRESS}              # domain name of the controller (required)
+      ZITI_CTRL_ADVERTISED_PORT: ${ZITI_CTRL_ADVERTISED_PORT:-443}    # exposed port of the controller
+      ZITI_ENROLL_TOKEN: ${ZITI_ENROLL_TOKEN}                         # enrollment token for this router (required)
+      ZITI_ROUTER_ADVERTISED_ADDRESS:                                 # domain name for this router (default: the container ID [hostname -f])
+      ZITI_ROUTER_ADVERTISED_PORT: ${ZITI_ROUTER_ADVERTISED_PORT-80}  # exposed port for this router
+      ZITI_ROUTER_MODE: tproxy                                        # host, tproxy, tproxy (tproxy requires additional config below)
+      # *** less relevant vars below ***
+      ZITI_ROUTER_TYPE: edge           # edge, fabric
+      ZITI_ROUTER_NAME: ${ZITI_CTRL_NAME}    # ensure the computed filenames based on this var are consistent, not based on
+      #  ephemeral container id
+      ZITI_BOOTSTRAP_CONFIG: "true"      # make config file from env vars and defaults if "true," overwrite if "force"
+      ZITI_BOOTSTRAP_ENROLLMENT: "true"  # enroll with controller if "true," overwrite if "force"
+      PFXLOG_NO_JSON: "true"
+      ZITI_TIME_FORMAT: utc
+    command: run config.yml
+    ports:
+      - "8090:8080"
+    expose:
+      - ${ZITI_ROUTER_ADVERTISED_PORT:-80}
+      - 8080
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    user: root
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test:
+        - CMD
+        - ziti
+        - agent
+        - stats
+      interval: 3s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    networks:
+      - scada
+
+networks:
+  scada:
+    driver: bridge
+
+volumes:
+  ziti-router:
+    driver: local
