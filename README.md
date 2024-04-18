@@ -10,6 +10,7 @@ To make the getting started hurdle even lower, our CloudZiti demo network will g
 The Taste-of-Ziti CloudZiti demo network contains the following test applications that you can access with the code samples in this project:
 * [Swagger Petstore](https://landing.openziti.io/pet-store/)
 * [Postgres Database](https://landing.openziti.io/postgres-database/)
+* [ModbusTCP Server](https://landing.openziti.io/modbus-server/)
 
 # Find Out More
 To learn more about OpenZiti, visit our [Documentation](https://openziti.io/docs/learn/introduction/) pages or ask a question on our [Discourse Site](https://openziti.discourse.group/)

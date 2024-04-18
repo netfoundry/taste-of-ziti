@@ -1,4 +1,4 @@
-# OpenZiti Modbus Server Demo
+# OpenZiti ModbusTCP Server Demo
 
 This example is a simple Java server that listens for ModbusTCP device messages using OpenZiti.
 
@@ -24,7 +24,7 @@ Execute either of the following to build with the desired build framework
 ## Usage
 
 By default, the ModbusServer connects to a hosted OpenZiti network and receives a temporary identity.  The
-identity is saved and reused for subsequent calls.  An alternate identity file can be used by starting the server with
+identity is saved and reused for subsequent calls.  An alternate identity file can be used by starting the application with
 the `-i <identityFile>` parameter.
 
 
@@ -59,5 +59,5 @@ The Taste-of-Ziti demo environment also has an instance of [ScadaLTS](https://gi
 using [BrowZer](https://scadalts.tasteofziti.browzer.cloudziti.io). As described in the [Taste-of-Ziti BrowZer Configuration](../../browzer/README.md),
 first authenticate using the demo credentials specified there, then login to the ScadaLTS application using the `demoUser` / `demo_Guest` credentials.
 
-The sample data points should already be available and can be added to a new watch list. The ScadaLTS application queries those data points
+The sample data points created for your server should already be available and can be added to a new watch list. The ScadaLTS application queries those data points
 over OpenZiti to your listening server.

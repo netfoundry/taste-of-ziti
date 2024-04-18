@@ -18,6 +18,7 @@ import (
 Here are the Taste-of-Ziti examples for GoLang.  Also, see the general OpenZiti GoLang SDK [examples](https://github.com/openziti/sdk-golang/tree/main/example)
 * [Petstore Client](petstoreClient)
 * [Database Client](dbClient)
+* [ModbusTCP Server](modbusServer)
 
 
 ## License

@@ -56,6 +56,7 @@ dependencies {
 Here are the Taste-of-Ziti examples for Java.  Also, see the general OpenZiti Java SDK [examples](https://github.com/openziti/ziti-sdk-jvm/tree/main/samples)
 * [Petstore Client](petstoreClient)
 * [Database Client](dbClient)
+* [ModbusTCP Server](modbusServer)
 
 
 ## License
