@@ -32,13 +32,15 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.openziti.Ziti;
+import org.openziti.ZitiContext;
 import org.openziti.jdbc.ZitiDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demoutils.AperitivoUtils;
 
 /**
- * This example is a simple Java client that connects to a dark database using OpenZiti
+ * This example is a simple Java client that connects to a private3 database using OpenZiti.
  */
 public class DbClient {
   private static final Logger log = LoggerFactory.getLogger(DbClient.class);
@@ -49,9 +51,8 @@ public class DbClient {
 
   public static void main(final String[] args) {
     final CommandLine cmdLine = parseCommandLineOptions(args);
-    final String identityFile = checkCreateIdentity(cmdLine);
-    // Simple demo that uses the identity and service to perform a jdbc request to that service
-    connectToDatabaseOverZiti(identityFile);
+    final ZitiContext zitiContext = checkCreateIdentity(cmdLine);
+    connectToDatabaseOverZiti();
     exit(0);
   }
 
@@ -79,35 +80,47 @@ public class DbClient {
     return commandLine;
   }
 
-  private static String checkCreateIdentity(final CommandLine cmdLine) {
+  private static ZitiContext loadIdentity(final String identityFile) {
+    log.info("Attempting to connect to ziti using identity stored in {}", identityFile);
+    Ziti.init(identityFile, "".toCharArray(), false);
+    final ZitiContext zitiContext = Ziti.getContexts().stream().findFirst().orElseThrow(() -> {
+      log.error("Could not establish a Ziti context using the identity {}", identityFile);
+      return new IllegalArgumentException("Could not create a ZitiContext");
+    });
+    if (!zitiContext.getStatus().toString().equals("Active")) {
+      log.warn("Failed to establish a ziti context, status: {}.", zitiContext.getStatus());
+      if (zitiContext.getStatus().toString().equals("NotAuthorized")) {
+        log.error("Cannot authenticate with the configured identity. If using '{}', try deleting this saved identity file and trying again",
+                DEFAULT_ZITI_IDENTITY_FILE);
+      }
+      throw new IllegalArgumentException("Could not authenticate the ZitiContext from: " + identityFile);
+    }
+    return zitiContext;
+  }
+
+  private static ZitiContext checkCreateIdentity(final CommandLine cmdLine) {
     if (cmdLine.hasOption(IDENTITY_OPTION)) {
-      return cmdLine.getOptionValue(IDENTITY_OPTION);
+      return loadIdentity(cmdLine.getOptionValue(IDENTITY_OPTION));
     } else if (new File(DEFAULT_ZITI_IDENTITY_FILE).exists()) {
-      return DEFAULT_ZITI_IDENTITY_FILE;
+      return loadIdentity(DEFAULT_ZITI_IDENTITY_FILE);
     } else {
-      return AperitivoUtils.createIdentityKeystore(
-          cmdLine.getOptionValue(APERITIVO_URL_OPTION, DEFAULT_APERITIVO_URL));
+      return loadIdentity(AperitivoUtils.createIdentityKeystore(
+              cmdLine.getOptionValue(APERITIVO_URL_OPTION, DEFAULT_APERITIVO_URL)));
     }
   }
 
-  private static void connectToDatabaseOverZiti(final String identityFile) {
+  private static void connectToDatabaseOverZiti() {
 
     // The demo environment has a 'postgres.ziti' intercept address that connects to a 'simpledb`
     // database with a simpletable in it
+
+    // The OpenZiti SDK provides ZDBC, a wrapper around JDBC that knows how to talk to a database
+    // over OpenZiti. You can read more about it here:
+    // https://github.com/openziti/ziti-sdk-jvm/tree/main/ziti-jdbc
     log.info("Querying simpletable in the postgres database over openziti");
     final String url = "zdbc:postgresql://postgres.ziti/simpledb";
 
     final Properties props = new Properties();
-    // the ziti-jdbc database driver directly supports ziti identities by setting either
-    // the keystore and keystore password when using a keystore based identity
-    // or the 'zitiIdentityFile' property when using json based identities
-    log.info("Attempting to connect to ziti using identity stored in {}", identityFile);
-    if (identityFile.toLowerCase().contains(".pkcs12")) {
-      props.setProperty("zitiKeystore", identityFile);
-      props.setProperty("zitiKeystorePassword", "");
-    } else {
-      props.setProperty("zitiIdentityFile", identityFile);
-    }
 
     props.setProperty("user", "viewuser");     //  the database read-only username
     props.setProperty("password", "viewpass"); //  the database read-only password
